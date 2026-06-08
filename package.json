@@ -1,0 +1,51 @@
+{
+  "name": "@originchain/mcp-server",
+  "version": "0.1.0",
+  "description": "Model Context Protocol (MCP) server for OriginChain — exposes ask, sql, vector, full-text, and schema tools to Claude Desktop, Cursor, and any MCP-aware AI IDE.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "originchain-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "originchain",
+    "ai",
+    "claude",
+    "cursor",
+    "database",
+    "vector",
+    "sql",
+    "full-text-search"
+  ],
+  "homepage": "https://github.com/originchain-ai/originchain-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/originchain-ai/originchain-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/originchain-ai/originchain-mcp/issues"
+  },
+  "author": "Silicoyn Technologies Pvt Ltd",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.12.0"
+  }
+}
