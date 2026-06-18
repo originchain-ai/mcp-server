@@ -32,13 +32,13 @@
     "sql",
     "full-text-search"
   ],
-  "homepage": "https://github.com/originchain-ai/originchain-mcp#readme",
+  "homepage": "https://github.com/originchain-ai/mcp-server#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/originchain-ai/originchain-mcp.git"
+    "url": "git+https://github.com/originchain-ai/mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/originchain-ai/originchain-mcp/issues"
+    "url": "https://github.com/originchain-ai/mcp-server/issues"
   },
   "author": "Silicoyn Technologies Pvt Ltd",
   "dependencies": {
