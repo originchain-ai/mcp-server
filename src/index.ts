@@ -241,7 +241,10 @@ async function callSql(args: { sql: string }) {
   return ocFetch("POST", `/sql`, { sql: args.sql });
 }
 
-// POST /vector/{table}/topk {vector, k, mode}
+// POST /vector/{table}/topk {query, dim, k, mode}
+// NOTE: the engine's VecTopkReq requires `query` (the embedding) and `dim`
+// (its length) — not `vector`. The tool's public arg stays `vector` for
+// intuitiveness; we map it here. Missing/renamed fields → 422.
 async function callVectorTopk(args: {
   table: string;
   vector: number[];
@@ -249,7 +252,8 @@ async function callVectorTopk(args: {
   mode?: "fast" | "high_recall";
 }) {
   const body = {
-    vector: args.vector,
+    query: args.vector,
+    dim: args.vector.length,
     k: args.k ?? 10,
     mode: args.mode ?? "high_recall",
   };
