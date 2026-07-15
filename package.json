@@ -1,6 +1,6 @@
 {
   "name": "@originchain/mcp-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Model Context Protocol (MCP) server for OriginChain — exposes ask, sql, vector, full-text, and schema tools to Claude Desktop, Cursor, and any MCP-aware AI IDE.",
   "license": "MIT",
   "type": "module",

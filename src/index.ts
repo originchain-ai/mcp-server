@@ -154,11 +154,11 @@ const TOOLS = [
   {
     name: "oc_sql",
     description:
-      "Run a typed SQL SELECT against the OriginChain tenant. Returns rows as JSON.",
+      "Run a SQL statement against the OriginChain tenant (SELECT and DELETE are supported by the engine; the bearer token's permissions govern what is allowed). Returns rows as JSON. Set OC_MCP_READONLY=true on the server to hard-reject anything but SELECT.",
     inputSchema: {
       type: "object",
       properties: {
-        sql: { type: "string", description: "SQL SELECT statement." },
+        sql: { type: "string", description: "SQL statement (SELECT, or DELETE when the server is not read-only)." },
       },
       required: ["sql"],
       additionalProperties: false,
@@ -288,10 +288,15 @@ async function callListSchemas() {
 // MCP server wiring
 // ---------------------------------------------------------------------------
 
+// Version comes from package.json so the MCP handshake can never drift from
+// the published artifact again (0.1.1 shipped announcing itself as 0.1.0).
+import { createRequire } from "node:module";
+const pkgVersion: string = createRequire(import.meta.url)("../package.json").version;
+
 const server = new Server(
   {
     name: "originchain-mcp",
-    version: "0.1.0",
+    version: pkgVersion,
   },
   {
     capabilities: {
@@ -326,6 +331,16 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       }
       case "oc_sql": {
         if (typeof args.sql !== "string") throw new Error("`sql` must be a string");
+        // Agent-safety valve: an MCP server wired into an autonomous agent with
+        // a full-access bearer would otherwise pass writes straight through.
+        if (
+          process.env.OC_MCP_READONLY === "true" &&
+          !/^\s*select/i.test(args.sql)
+        ) {
+          throw new Error(
+            "OC_MCP_READONLY=true — only SELECT statements are allowed on this server",
+          );
+        }
         return asTextResult(await callSql({ sql: args.sql }));
       }
       case "oc_vector_topk": {
